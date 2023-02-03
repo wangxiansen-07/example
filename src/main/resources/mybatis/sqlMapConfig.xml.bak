@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 1.基础配置部分 -->
+    <!-- 引入外部配置文件 -->
+    <properties resource="properties/db.properties"/>
+    <!-- 日志等配置 -->
+    <settings>
+        <!-- 启用Mybatis内置的日志服务 -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!-- 开启懒加载，默认是false -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 覆盖默认的导致懒加载失效的方法,value为空表示覆盖所有 -->
+        <setting name="lazyLoadTriggerMethods" value=""/>
+    </settings>
+    <!-- 常用别名配置 -->
+    <typeAliases>
+        <package name="org.example.domain"/>
+    </typeAliases>
+
+    <!-- 2.数据库环境配置部分 -->
+    <environments default="dev">
+        <!-- 环境一：开发环境 -->
+        <environment id="dev">
+            <!-- 使用JDBC的事务管理 -->
+            <transactionManager type="JDBC"/>
+            <!-- POOLED：表示以连接池方式来管理连接 -->
+            <dataSource type="POOLED">
+                <!-- 数据库基本四项 -->
+                <property name="driver" value="${mysql.driver}"/>
+                <property name="url" value="${mysql.url}"/>
+                <property name="username" value="${mysql.username}"/>
+                <property name="password" value="${mysql.password}"/>
+            </dataSource>
+        </environment>
+        <!-- 环境二：生产环境 -->
+        <environment id="pro">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://192.168.10.52:3306/production"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 3.映射文件配置部分 -->
+    <mappers>
+       <package name="org.example.dao"/>
+    </mappers>
+</configuration>
